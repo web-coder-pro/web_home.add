@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Heart Animation</title>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      flex-direction: column;
+      color: white;
+      font-family: sans-serif;
+    }
+    canvas {
+      display: block;
+    }
+    .message {
+      margin-top: 20px;
+      font-size: 24px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width="600" height="400"></canvas>
+  <div class="message">I love You</div>
+  <script>
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");let t = 0;
+
+function drawHeartPath(ctx, scale, offsetX, offsetY, color) {
+  ctx.beginPath();
+  for (let i = 0; i <= Math.PI * 2; i += 0.01) {
+    const x = 16 * Math.pow(Math.sin(i), 3);
+    const y =
+      13 * Math.cos(i) - 5 * Math.cos(2 * i) - 2 * Math.cos(3 * i) - Math.cos(4 * i);
+    const drawX = canvas.width / 2 + scale * x + offsetX;
+    const drawY = canvas.height / 2 - scale * y + offsetY;
+    if (i === 0) ctx.moveTo(drawX, drawY);
+    else ctx.lineTo(drawX, drawY);
+  }
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 3;
+  ctx.shadowBlur = 20;
+  ctx.shadowColor = color;
+  ctx.stroke();
+}
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  let offset = Math.sin(t) * 20;
+
+  drawHeartPath(ctx, 10, offset, 0, "#ff3cac");
+  drawHeartPath(ctx, 10, -offset, 0, "#4be1ec");
+
+  t += 0.05;
+  requestAnimationFrame(animate);
+}
+
+animate();
+
+  </script>
+</body>
+</html>
